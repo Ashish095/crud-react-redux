@@ -4,15 +4,15 @@ import Grid from '@material-ui/core/Grid';
 import { StyleRulesCallback, WithStyles } from '@material-ui/core/styles/withStyles';
 import withStyles from '@material-ui/core/styles/withStyles';
 
-// const styles: StyleRulesCallback<'root'> = theme => ({
-//     root: {},
-//     leftSection: {
-//         marginTop: 12
-//     },
-//     rightSection: {
-//         margin: 5
-//     },
-// });
+const styles: StyleRulesCallback<'root'> = theme => ({
+    root: {},
+    leftSection: {
+        marginTop: 12
+    },
+    rightSection: {
+        margin: 5
+    },
+});
 
 interface Props { 
     headerName: string;
@@ -36,11 +36,11 @@ return (
 }
 }
 
-// const combinedStyles: StyleRulesCallback<'root'> = theme => {
-//     return Object.assign(
-//         {},
-//         styles(theme),
-//     );
-// };
+const combinedStyles: StyleRulesCallback<'root'> = theme => {
+    return Object.assign(
+        {},
+        styles(theme),
+    );
+};
 
-export default MainPage;
+export default withStyles(combinedStyles, { withTheme: true })(MainPage);

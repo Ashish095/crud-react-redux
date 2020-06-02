@@ -4,10 +4,10 @@ import MainPage from './MainPage';
 
 function App() {
   return (
-  <>
-          <Header />
-          <MainPage headerName={'Header'} />
-  </>
+    <>
+      <Header />
+      <MainPage />
+    </>
   );
 }
 

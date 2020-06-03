@@ -1,27 +1,21 @@
 import * as React from 'react';
-import classNames from 'classnames';
 
 import { WithStyles, createStyles, Theme, withStyles } from '@material-ui/core';
 
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
-import FormControl from '@material-ui/core/FormControl';
-import Button from '@material-ui/core/Button';
-import Table from '@material-ui/core/Table';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import TableCell from '@material-ui/core/TableCell';
-import TableBody from '@material-ui/core/TableBody';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
+import AddUser from './user/AddUser';
+import UserList from './user/UserList';
 
 const styles = (theme: Theme) => createStyles({
     root: {
         display: 'flex',
+        flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        margin: 24
+        margin: 24,
+        '@media (min-width: 960px)': {
+            flexDirection: 'row'
+        }
     },
     leftSection: {
         width: '100%',
@@ -32,6 +26,10 @@ const styles = (theme: Theme) => createStyles({
     },
     rightSection: {
         width: '100%',
+        marginTop: 24,
+        '@media (min-width: 960px)': {
+            marginTop: 0,
+        },
         '& $heading': {
             fontSize: 28
         }
@@ -51,6 +49,19 @@ const styles = (theme: Theme) => createStyles({
     addUserButton: {
         marginTop: 20
     },
+    tableSection: {
+        overflow: 'auto',
+        paddingBottom: 32
+    },
+    table: {
+        margin: '0 16px',
+        overflow: 'auto',
+        minWidth: 900,
+        '@media (min-width: 960px)': {
+            margin: 0,
+            minWidth: 'auto',
+        }
+    },
     heading: {}
 });
 
@@ -64,99 +75,17 @@ class MainPage extends React.Component<Props, State> {
 
         return (
             <Grid item={true} xs={12} className={classes.root}>
+                {/* left Section */}
                 <Grid item={true} xs={12} className={classes.leftSection}>
-                    <Typography className={classes.heading}>
-                        Add User
-                    </Typography>
-                    <Grid item={true} xs={12} className={classes.formGroup}>
-                        <FormControl
-                            className={classNames(
-                                classes.width100,
-                                classes.marginTop12
-                            )}
-                        >
-                            <TextField
-                                label="Name"
-                                id="name"
-                                name="name"
-                                type="text"
-                            // value={caseNumber}
-                            // error={saveClicked && !caseNumber}
-                            // onChange={(e) => this.setState({ caseNumber: e.target.value })}
-                            />
-                        </FormControl>
-                        <FormControl
-                            className={classNames(
-                                classes.width100,
-                                classes.marginTop12
-                            )}
-                        >
-                            <TextField
-                                label="User Name"
-                                id="user-name"
-                                name="userName"
-                                type="text"
-                            // value={caseNumber}
-                            // error={saveClicked && !caseNumber}
-                            // onChange={(e) => this.setState({ caseNumber: e.target.value })}
-                            />
-                        </FormControl>
-                        <FormControl
-                            className={classNames(
-                                classes.width100,
-                                classes.marginTop12
-                            )}
-                        >
-                            <TextField
-                                label="Email Id"
-                                id="email-id"
-                                name="emailId"
-                                type="text"
-                            // value={caseNumber}
-                            // error={saveClicked && !caseNumber}
-                            // onChange={(e) => this.setState({ caseNumber: e.target.value })}
-                            />
-                        </FormControl>
-                    </Grid>
-                    <Grid item={true} xs={12} className={classes.addUserButton}>
-                        <Button
-                            variant="contained"
-                            size="medium"
-                            color="primary"
-                        // onClick={() => this.saveCaseNumber()}
-                        >
-                            Add User
-                        </Button>
-                    </Grid>
+                    <AddUser />
                 </Grid>
+                {/* left Section */}
 
                 {/* right Section */}
                 <Grid item={true} xs={12} className={classes.rightSection}>
-                    <Typography className={classes.heading}>
-                        View User
-                    </Typography>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Name</TableCell>
-                                <TableCell>User Name</TableCell>
-                                <TableCell>Email Id</TableCell>
-                                <TableCell>Actions</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            <TableRow>
-                                <TableCell>Ashish Sharma</TableCell>
-                                <TableCell>ashish.iotasol</TableCell>
-                                <TableCell>ashish.iotasol@gmail.com</TableCell>
-                                <TableCell>
-                                    <EditIcon color="primary" />&nbsp;
-                                    <DeleteIcon color="primary" />
-                                </TableCell>
-                            </TableRow>
-                        </TableBody>
-                    </Table>
+                    <UserList />
                 </Grid>
+                {/* right Section */}
             </Grid>
         );
     }

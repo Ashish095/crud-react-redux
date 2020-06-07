@@ -11,6 +11,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableBody from '@material-ui/core/TableBody';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+import IconButton from '@material-ui/core/IconButton';
 
 const styles = (theme: Theme) => createStyles({
     root: {},
@@ -37,6 +38,17 @@ interface Props extends WithStyles<typeof styles> { }
 interface State { }
 
 class UserList extends React.Component<Props, State> {
+
+    editUserDetail = (e: React.MouseEvent) => {
+        e.preventDefault();
+        console.log('Edit User Function');
+    }
+
+    deleteUser = (e: React.MouseEvent) => {
+        e.preventDefault();
+        console.log('Delete User Function');
+    }
+
     render() {
         const { classes } = this.props;
 
@@ -62,8 +74,18 @@ class UserList extends React.Component<Props, State> {
                                 <TableCell>ashish.iotasol</TableCell>
                                 <TableCell>ashish.iotasol@gmail.com</TableCell>
                                 <TableCell>
-                                    <EditIcon color="primary" />&nbsp;
-                                    <DeleteIcon color="primary" />
+                                    <IconButton
+                                        onClick={(e) => this.editUserDetail(e)}
+                                    >
+                                        <EditIcon
+                                            color="primary"
+                                        />&nbsp;
+                                    </IconButton>
+                                    <IconButton
+                                        onClick={(e) => this.deleteUser(e)}
+                                    >
+                                        <DeleteIcon color="primary" />
+                                    </IconButton>
                                 </TableCell>
                             </TableRow>
                         </TableBody>

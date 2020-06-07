@@ -19,7 +19,10 @@ const styles = (theme: Theme) => createStyles({
     },
     leftSection: {
         width: '100%',
-        maxWidth: 'calc(100% - 60%)',
+        maxWidth: '100%',
+        '@media (min-width: 600px)': {
+            maxWidth: 'calc(100% - 60%)',
+        },
         '& $heading': {
             fontSize: 28
         }

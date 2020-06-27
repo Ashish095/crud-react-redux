@@ -6,14 +6,14 @@ import 'firebase/firestore';
 
 // config rules copied from firbase console ---> Project Setting
 const config = {
-    apiKey: "AIzaSyBdc3hTS8VCfQPaDbS2w8MdXMvqFHdvmKs",
-    authDomain: "crud-react-redux-4e910.firebaseapp.com",
-    databaseURL: "https://crud-react-redux-4e910.firebaseio.com",
-    projectId: "crud-react-redux-4e910",
-    storageBucket: "crud-react-redux-4e910.appspot.com",
-    messagingSenderId: "825075332639",
-    appId: "1:825075332639:web:823b48ffd5b4b71988072a",
-    measurementId: "G-PGF5ER1N9Z"
+    apiKey: "PROJECT--API--KEY",
+    authDomain: "AUTH--DOMAIN",
+    databaseURL: "DATABASE--URL",
+    projectId: "PROJECT--ID",
+    storageBucket: "BUCKET---NAME",
+    messagingSenderId: "MESSAGING--SENDER--ID",
+    appId: "*:************:web:************",
+    measurementId: "G-*********"
 };
 
 if (!firebase.apps.length) {

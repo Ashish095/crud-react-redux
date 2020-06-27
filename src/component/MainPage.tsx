@@ -5,6 +5,9 @@ import { WithStyles, createStyles, Theme, withStyles } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import AddUser from './user/AddUser';
 import UserList from './user/UserList';
+import { getUserFromFirebase } from '../actions/UserAction';
+import { StoreState } from '../types';
+import { connect } from 'react-redux';
 
 const styles = (theme: Theme) => createStyles({
     root: {
@@ -68,13 +71,20 @@ const styles = (theme: Theme) => createStyles({
     heading: {}
 });
 
-interface Props { }
+interface Props {
+    getUsers: () => void;
+}
 
 interface State { }
 
 type CombinedProps = Props & WithStyles<typeof styles>;
 
 class MainPage extends React.Component<CombinedProps, State> {
+
+    componentDidMount() {
+        const users = this.props.getUsers();
+        console.log('UsersInComponent===>', users);
+	}
 
     render() {
         const { classes } = this.props;
@@ -97,4 +107,14 @@ class MainPage extends React.Component<CombinedProps, State> {
     }
 }
 
-export default withStyles(styles)(MainPage);
+function mapStateToProps({ }: StoreState) {
+    return {};
+}
+
+function mapDispatchToProps(dispatch: Function) {
+    return {
+        getUsers: () => { dispatch(getUserFromFirebase()); }
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(MainPage));

@@ -68,11 +68,14 @@ const styles = (theme: Theme) => createStyles({
     heading: {}
 });
 
-interface Props extends WithStyles<typeof styles> { }
+interface Props { }
 
 interface State { }
 
-class MainPage extends React.Component<Props, State> {
+type CombinedProps = Props & WithStyles<typeof styles>;
+
+class MainPage extends React.Component<CombinedProps, State> {
+
     render() {
         const { classes } = this.props;
 
@@ -94,4 +97,4 @@ class MainPage extends React.Component<Props, State> {
     }
 }
 
-export default withStyles(styles, { withTheme: true })(MainPage);
+export default withStyles(styles)(MainPage);

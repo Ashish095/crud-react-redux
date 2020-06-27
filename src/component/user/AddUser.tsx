@@ -8,6 +8,10 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
 import Button from '@material-ui/core/Button';
+import { User } from '../../types/model';
+import { StoreState } from '../../types';
+import { connect } from 'react-redux';
+import { addUserOnFirebase } from '../../actions/UserAction';
 
 const styles = (theme: Theme) => createStyles({
     root: {},
@@ -44,13 +48,39 @@ const styles = (theme: Theme) => createStyles({
     },
 });
 
-interface Props extends WithStyles<typeof styles> { }
+type StyledProps = WithStyles<typeof styles>;
 
-interface State { }
+interface Props {
+    // addUser: typeof addUser;
+    addUser: (user: User) => void;
+}
 
-class AddUser extends React.Component<Props, State> {
+type CombinedProps = Props & StyledProps;
+
+interface State {
+    userState: User;
+    saveClicked: boolean;
+}
+
+const INITIAL_STATE: State = {
+    userState: {
+        name: '',
+        username: '',
+        email: ''
+    },
+    saveClicked: false
+}
+
+class AddUser extends React.Component<CombinedProps, State> {
+    constructor(props: CombinedProps) {
+        super(props);
+        this.state = INITIAL_STATE;
+    }
+
     render() {
         const { classes } = this.props;
+        const { userState, saveClicked } = this.state;
+        const { name, username, email } = userState;
 
         return (
             <div>
@@ -69,8 +99,9 @@ class AddUser extends React.Component<Props, State> {
                             id="name"
                             name="name"
                             type="text"
-                        // value={caseNumber}
-                        // error={saveClicked && !caseNumber}
+                            value={name}
+                            onChange={this.handleChange}
+                            error={saveClicked && !name}
                         // onChange={(e) => this.setState({ caseNumber: e.target.value })}
                         />
                     </FormControl>
@@ -83,10 +114,11 @@ class AddUser extends React.Component<Props, State> {
                         <TextField
                             label="User Name"
                             id="user-name"
-                            name="userName"
+                            name="username"
                             type="text"
-                        // value={caseNumber}
-                        // error={saveClicked && !caseNumber}
+                            value={username}
+                            onChange={this.handleChange}
+                            error={saveClicked && !username}
                         // onChange={(e) => this.setState({ caseNumber: e.target.value })}
                         />
                     </FormControl>
@@ -99,10 +131,11 @@ class AddUser extends React.Component<Props, State> {
                         <TextField
                             label="Email Id"
                             id="email-id"
-                            name="emailId"
+                            name="email"
                             type="text"
-                        // value={caseNumber}
-                        // error={saveClicked && !caseNumber}
+                            onChange={this.handleChange}
+                            value={email}
+                            error={saveClicked && !email}
                         // onChange={(e) => this.setState({ caseNumber: e.target.value })}
                         />
                     </FormControl>
@@ -112,7 +145,7 @@ class AddUser extends React.Component<Props, State> {
                         variant="contained"
                         size="medium"
                         color="primary"
-                    // onClick={() => this.saveCaseNumber()}
+                        onClick={() => this.handleSaveUser()}
                     >
                         Add User
                     </Button>
@@ -120,6 +153,35 @@ class AddUser extends React.Component<Props, State> {
             </div>
         );
     }
+
+    handleSaveUser = () => {
+        const { addUser } = this.props;
+        const { userState } = this.state;
+        this.setState({ saveClicked: true });
+        if (!userState.name || !userState.username || !userState.email) {
+            return;
+        }
+        addUser(userState);
+    }
+
+    handleChange = (e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement | HTMLSelectElement>) => {
+        const { userState } = this.state;
+        const value = e.target.value;
+        const name = e.target.name;
+        this.setState({
+            userState: { ...userState, [name]: value }
+        });
+    }
 }
 
-export default withStyles(styles, { withTheme: true })(AddUser);
+function mapStateToProps({ }: StoreState) {
+    return {};
+}
+
+function mapDispatchToProps(dispatch: Function) {
+    return {
+        addUser: (user: User) => { dispatch(addUserOnFirebase(user)); }
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(AddUser));

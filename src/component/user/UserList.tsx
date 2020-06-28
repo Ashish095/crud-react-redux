@@ -12,6 +12,7 @@ import TableBody from '@material-ui/core/TableBody';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import IconButton from '@material-ui/core/IconButton';
+import { User } from '../../types/model';
 
 const styles = (theme: Theme) => createStyles({
     root: {},
@@ -33,16 +34,14 @@ const styles = (theme: Theme) => createStyles({
     },
 });
 
-interface Props extends WithStyles<typeof styles> { }
+interface Props extends WithStyles<typeof styles> {
+    users: User[];
+    editUserDetail: (user: User, e: React.MouseEvent) => void;
+}
 
 interface State { }
 
 class UserList extends React.Component<Props, State> {
-
-    editUserDetail = (e: React.MouseEvent) => {
-        e.preventDefault();
-        console.log('Edit User Function');
-    }
 
     deleteUser = (e: React.MouseEvent) => {
         e.preventDefault();
@@ -50,7 +49,7 @@ class UserList extends React.Component<Props, State> {
     }
 
     render() {
-        const { classes } = this.props;
+        const { classes, users, editUserDetail } = this.props;
 
         return (
             <div>
@@ -69,25 +68,27 @@ class UserList extends React.Component<Props, State> {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            <TableRow>
-                                <TableCell>Ashish Sharma</TableCell>
-                                <TableCell>ashish.iotasol</TableCell>
-                                <TableCell>ashish.iotasol@gmail.com</TableCell>
-                                <TableCell>
-                                    <IconButton
-                                        onClick={(e) => this.editUserDetail(e)}
-                                    >
-                                        <EditIcon
-                                            color="primary"
-                                        />&nbsp;
-                                    </IconButton>
-                                    <IconButton
-                                        onClick={(e) => this.deleteUser(e)}
-                                    >
-                                        <DeleteIcon color="primary" />
-                                    </IconButton>
-                                </TableCell>
-                            </TableRow>
+                            {users.map((user, i) => {
+                                return <TableRow key={`id_${i}`}> 
+                                    <TableCell>{user.name}</TableCell>
+                                    <TableCell>{user.username}</TableCell>
+                                    <TableCell>{user.email}</TableCell>
+                                    <TableCell>
+                                        <IconButton
+                                            onClick={(e) => editUserDetail(user, e)}
+                                        >
+                                            <EditIcon
+                                                color="primary"
+                                            />&nbsp;
+                                        </IconButton>
+                                        <IconButton
+                                            onClick={(e) => this.deleteUser(e)}
+                                        >
+                                            <DeleteIcon color="primary" />
+                                        </IconButton>
+                                    </TableCell>
+                                </TableRow>
+                            })}
                         </TableBody>
                     </Table>
                 </Grid>

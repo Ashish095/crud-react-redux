@@ -6,7 +6,7 @@ import Grid from '@material-ui/core/Grid';
 import AddUser from './user/AddUser';
 import UserList from './user/UserList';
 import { getUserFromFirebase } from '../actions/UserAction';
-import { StoreState } from '../types';
+import { StoreState, User } from '../types';
 import { connect } from 'react-redux';
 
 const styles = (theme: Theme) => createStyles({
@@ -72,43 +72,64 @@ const styles = (theme: Theme) => createStyles({
 });
 
 interface Props {
+    users: User[];
     getUsers: () => void;
 }
 
-interface State { }
+interface State {
+    activeUser: User | null;
+}
 
 type CombinedProps = Props & WithStyles<typeof styles>;
 
 class MainPage extends React.Component<CombinedProps, State> {
+    state: State = {
+        activeUser: null
+    }
 
     componentDidMount() {
-        const users = this.props.getUsers();
-        console.log('UsersInComponent===>', users);
-	}
+        this.props.getUsers(); // api call 
+    }
 
     render() {
-        const { classes } = this.props;
+        const { classes, users } = this.props;
+        const { activeUser } = this.state;
 
         return (
             <Grid item={true} xs={12} className={classes.root}>
                 {/* left Section */}
                 <Grid item={true} xs={12} className={classes.leftSection}>
-                    <AddUser />
+                    <AddUser
+                        activeUser={activeUser}
+                    />
                 </Grid>
                 {/* left Section */}
 
                 {/* right Section */}
                 <Grid item={true} xs={12} className={classes.rightSection}>
-                    <UserList />
+                    <UserList
+                        users={users}
+                        editUserDetail={this.editUserDetail}
+                    />
                 </Grid>
                 {/* right Section */}
             </Grid>
         );
     }
+
+    editUserDetail = (user: User, e: React.MouseEvent) => {
+        e.preventDefault();
+        console.log('activeUser', user);
+        this.setState({
+            activeUser: user
+        });
+    }
 }
 
-function mapStateToProps({ }: StoreState) {
-    return {};
+function mapStateToProps({ userState }: StoreState) {
+    return {
+        users: userState.user
+    };
 }
 
 function mapDispatchToProps(dispatch: Function) {

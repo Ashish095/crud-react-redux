@@ -53,6 +53,7 @@ type StyledProps = WithStyles<typeof styles>;
 interface Props {
     // addUser: typeof addUser;
     addUser: (user: User) => void;
+    activeUser: User | null;
 }
 
 type CombinedProps = Props & StyledProps;
@@ -78,9 +79,10 @@ class AddUser extends React.Component<CombinedProps, State> {
     }
 
     render() {
-        const { classes } = this.props;
+        const { classes, activeUser } = this.props;
         const { userState, saveClicked } = this.state;
         const { name, username, email } = userState;
+        console.log('In AddUserCom==>', activeUser);
 
         return (
             <div>
@@ -147,7 +149,7 @@ class AddUser extends React.Component<CombinedProps, State> {
                         color="primary"
                         onClick={() => this.handleSaveUser()}
                     >
-                        Add User
+                        {activeUser && activeUser.id ? 'Edit' : 'Add'} User
                     </Button>
                 </Grid>
             </div>

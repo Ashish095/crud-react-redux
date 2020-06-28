@@ -29,7 +29,6 @@ interface AddUser {
 }
 
 export function addUser(user: User): AddUser {
-    console.log('In Action');
     return {
         type: ADD_USER,
         user
@@ -52,24 +51,12 @@ export const addUserOnFirebase = (user: User) => {
 export const getUserFromFirebase = () => {
     return async (dispatch: Dispatch<GetUser>) => {
         const usersFromFirebase = await firebase.firestore().collection('/user').get();
-        console.log('usersFromFirebase', usersFromFirebase.docs.map(d=> d.data()));
         const users: User[] = usersFromFirebase.docs.map(doc => {
             const data = doc.data() as User;
-            console.log('data', data);
             return { ...data, id: doc.id };
         });
+        dispatch(getUser(users));
     }
 }
-
-// export const getSeriesFromFirebase = () => {
-//     return async (dispatch: Dispatch<SetSeries>) => {
-//         const seriesDocument = await firebase.firestore().collection('/series').get();
-//         const series: Series[] = seriesDocument.docs.map(doc => {
-//             const data = doc.data() as Series;
-//             return { ...data, id: doc.id };
-//         });
-//         dispatch(setSeries(series));
-//     }
-// }
 
 export type UserAction = AddUser | GetUser;
